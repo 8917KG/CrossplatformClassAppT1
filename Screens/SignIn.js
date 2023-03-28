@@ -3,38 +3,7 @@ import {  useEffect, useState } from "react";
 
 export function SignUpScreen (props){
     const [email, setEmail] = useState("")
-    const [vaildEmail, setValidEmail] = useState(false)
     const [password, setPassword] = useState("")
-    const [validPassword, setValidPassword] = useState(false)
-    const [validForm, setValidForm] = useState(false)
-
-    useEffect(() => {
-        if(email.indexOf('@') > 0){
-            setValidEmail(true)
-        }
-        else{
-            setValidEmail(false)
-        }
-    }, [email])
-
-    useEffect(() => {
-        if(password.length >= 8){
-            setValidPassword(true)
-        }
-        else{
-            setValidPassword(false)
-        }
-    }, [password])
-
-    useEffect(() => {
-        if(vaildEmail && validPassword)(
-            setValidForm(true)
-        )
-        else{
-            setValidForm(false)
-        }
-    })
-    
 
     return(
         <View style = {styles.page}>
@@ -44,7 +13,7 @@ export function SignUpScreen (props){
             <View style = {styles.inputGroup}>
                 <Text>Email Address</Text>
                 <TextInput 
-                    style = {(vaildEmail) ? styles.validInput : styles.input}
+                    style = {styles.input}
                     placeholder = "you@domain.com"
                     value={email}
                     onChangeText={ (emailText) => setEmail(emailText)}
@@ -53,7 +22,7 @@ export function SignUpScreen (props){
             <View style = {styles.inputGroup}>
                 <Text>Password</Text>
                 <TextInput 
-                    style = {(validPassword) ? styles.validInput : styles.input}
+                    style = {styles.input}
                     placeholder = "minimum of 8 characters"
                     value={password}
                     onChangeText={ (passwordText) => setPassword(passwordText)}
@@ -61,16 +30,10 @@ export function SignUpScreen (props){
                 /> 
             </View>
             <TouchableOpacity 
-                style = { (validForm) ? styles.button: styles.buttonDisabled} 
-                disabled = {(validForm) ? false : true}
-                >
-                
+                style = {styles.button}>
                 <Text style = {styles.buttonText}>
-                    Sign Up 
+                    Sign In
                 </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style = {styles.signInLink}>
-                <Text style = {styles.singInLinkText}>Already have an Account? Sign in here.</Text>
             </TouchableOpacity>
         </View>
     )
@@ -112,14 +75,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#d4ddff',
         padding: 10,
         marginVertical: 5,
-    },
-    signInLink: {
-        marginVertical: 5,
-    },
-    singInLinkText:{
-        textAlign: 'center',
     }
-
-
-
-})
+}) 
