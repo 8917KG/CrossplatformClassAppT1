@@ -8,11 +8,17 @@ export function SignUpScreen (props){
             </Text>
             <View style = {styles.inputGroup}>
                 <Text>Email Address</Text>
-                <TextInput style = {styles.input}/>
+                <TextInput 
+                    style = {styles.input}
+                    placeholder = "you@domain.com"
+                />
             </View>
             <View style = {styles.inputGroup}>
                 <Text>Password</Text>
-                <TextInput style = {styles.input}/>
+                <TextInput 
+                    style = {styles.input}
+                    placeholder = "minimum of 8 characters"
+                />
             </View>
             <TouchableOpacity style = {styles.button}>
                 <Text style = {styles.buttonText}>
