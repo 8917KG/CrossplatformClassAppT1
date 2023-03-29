@@ -67,8 +67,7 @@ export function SignUpScreen (props){
                 style = { (validForm) ? styles.button: styles.buttonDisabled} 
                 disabled = {(validForm) ? false : true}
                 onPress={() => props.handler(email,password)}
-                >
-                
+            >                
                 <Text style = {styles.buttonText}>
                     Sign Up 
                 </Text>

@@ -14,17 +14,17 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator()
 
-const FBapp = initializeApp( firebaseConfig );
+const FBapp = initializeApp( firebaseConfig )
 const FBauth = getAuth(FBapp)
 
 export default function App() {
 
-const Signup = (email,password) => {
+const SignUp = (email,password) => {
   createUserWithEmailAndPassword(FBauth, email, password)
   .then((userCredential) => console.log(userCredential))
-  .catch(() => console.log(error)) 
+  .catch((error) => console.log(error)) 
 }
 
   return (
@@ -35,7 +35,6 @@ const Signup = (email,password) => {
           </Stack.Screen>
           <Stack.Screen name = "SignIn" component={SignInScreen}/>
           <Stack.Screen name = "Home" component={HomeScreen}/>
-          
         </Stack.Navigator>
     </NavigationContainer>
   );
