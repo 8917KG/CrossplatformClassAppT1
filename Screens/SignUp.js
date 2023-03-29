@@ -1,5 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import {  useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export function SignUpScreen (props){
     const [email, setEmail] = useState("")
@@ -7,6 +8,8 @@ export function SignUpScreen (props){
     const [password, setPassword] = useState("")
     const [validPassword, setValidPassword] = useState(false)
     const [validForm, setValidForm] = useState(false)
+    
+    const navigation = useNavigation()
 
     useEffect(() => {
         if(email.indexOf('@') > 0){
@@ -63,13 +66,17 @@ export function SignUpScreen (props){
             <TouchableOpacity 
                 style = { (validForm) ? styles.button: styles.buttonDisabled} 
                 disabled = {(validForm) ? false : true}
+                onPress={() => props.handler(email,password)}
                 >
                 
                 <Text style = {styles.buttonText}>
                     Sign Up 
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style = {styles.signInLink}>
+            <TouchableOpacity 
+                style = {styles.signInLink}
+                onPress = {() => navigation.navigate("SignIn")}
+            >
                 <Text style = {styles.singInLinkText}>Already have an Account? Sign in here.</Text>
             </TouchableOpacity>
         </View>

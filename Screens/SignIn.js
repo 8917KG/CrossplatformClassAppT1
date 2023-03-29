@@ -1,7 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import {  useEffect, useState } from "react";
 
-export function SignUpScreen (props){
+export function SignInScreen (props){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
