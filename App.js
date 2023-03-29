@@ -11,7 +11,12 @@ import { SignInScreen } from './Screens/SignIn';
 //Firebase
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import { useState } from 'react';
 
 
 const Stack = createNativeStackNavigator()
@@ -21,17 +26,31 @@ const FBauth = getAuth(FBapp)
 
 export default function App() {
 
-const SignUp = (email,password) => {
+  const [auth, setAuth] = useState()
+
+  onAuthStateChanged(FBauth, (user) => {
+    if (user) {
+      setAuth(user)
+    }
+    else {
+      setAuth(null)
+    }
+  })
+
+const SignUp = ( email,password ) => {
   createUserWithEmailAndPassword(FBauth, email, password)
-  .then((userCredential) => console.log(userCredential))
-  .catch((error) => console.log(error)) 
+  .then( (userCredential) => console.log(userCredential) )
+  .catch( (error) => console.log(error) ) 
 }
 
   return (
     <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name = "SignUp">
-            {(props) => <SignUpScreen {...props} handler={SignUp}/>}
+            { 
+            (props) => <SignUpScreen {...props} handler={SignUp} 
+            authStatus = {auth}/> 
+            }
           </Stack.Screen>
           <Stack.Screen name = "SignIn" component={SignInScreen}/>
           <Stack.Screen name = "Home" component={HomeScreen}/>

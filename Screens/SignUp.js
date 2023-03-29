@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import {  useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 export function SignUpScreen (props){
     const [email, setEmail] = useState("")
@@ -37,6 +37,12 @@ export function SignUpScreen (props){
             setValidForm(false)
         }
     })
+
+    useEffect (() => {
+        if(props.authStatus) {
+            navigation.navigate("Home")
+        }
+    },[props.authStatus])
     
 
     return(
@@ -64,7 +70,7 @@ export function SignUpScreen (props){
                 /> 
             </View>
             <TouchableOpacity 
-                style = { (validForm) ? styles.button: styles.buttonDisabled} 
+                style = { (validForm) ? styles.button : styles.buttonDisabled} 
                 disabled = {(validForm) ? false : true}
                 onPress={() => props.handler(email,password)}
             >                
