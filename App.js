@@ -1,5 +1,6 @@
+import 'react-native-gesture-handler'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
@@ -7,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
+import { DetailScreen } from './Screens/DetailScreen';
 // firebase modules
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app'
@@ -43,7 +45,7 @@ export default function App() {
   onAuthStateChanged( FBauth, (user) => {
     if( user ) {
       setAuth( user )
-      console.log( user.uid )
+      // console.log( user.uid )
     }
     else {
       setAuth( null )
@@ -90,10 +92,21 @@ export default function App() {
     const unsubscribe = onSnapshot( dataQuery, ( responseData ) => {
       let notes = []
       responseData.forEach( (note) => {
-        notes.push( note.data() )
+        let item = note.data()
+        item.id = note.id
+        notes.push( item )
       })
-      console.log( notes )
+      // console.log( notes )
+      setNoteData( notes )
     })
+  }
+
+  const SignOutButton = ( props ) => {
+    return(
+      <TouchableOpacity onPress={ () => SignOut() }>
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
+    )
   }
 
   return (
@@ -105,8 +118,11 @@ export default function App() {
         <Stack.Screen name="Signin">
           { (props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} /> }
         </Stack.Screen>
-        <Stack.Screen name="Home">
-          { (props) => <HomeScreen {...props} authStatus={auth} signOutHandler={SignOut} add={AddData} /> }
+        <Stack.Screen name="Home" options={{ headerRight: () =><SignOutButton /> }}>
+          { (props) => <HomeScreen {...props} authStatus={auth}  add={AddData} data = {noteData} /> }
+        </Stack.Screen>
+        <Stack.Screen name ="Detail">
+          {(props) = > <DetailScreen}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,11 +1,7 @@
-import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList } from "react-native"
-import { useNavigation } from "@react-navigation/native"
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from "react-native"
 import { useState, useEffect } from 'react'
 
-
-export function HomeScreen(props) {
-  const navigation = useNavigation()
-
+export function NotesScreen( props ) {
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('')
   const [note,setNote] = useState('')
@@ -15,41 +11,10 @@ export function HomeScreen(props) {
     const noteObj = { title: title, content: note }
     props.add( noteObj )
   }
-
-  useEffect(() => {
-    if (!props.authStatus) {
-      navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
-    }
-  }, [props.authStatus])
-
-  const ListCLickHandler = (data) => {
-    navigation.navigate("Detail", data)
-  }
-
-  const ListItem = (props ) => {
-    retrun (
-        <View 
-        style= {styles.ListItem} 
-        onPress={
-            () => ListCLickHandler({id: props.id, title: props.title, content:props.content})
-        }
-        >
-            <Text style = {styles.ListItem}>{props.title}</Text>
-            <Text style = {styles.ListItem}>{props.content}</Text>
-        </View>
-    )
-  }
-
-  const ListItemSeperator = (props) => {
-    retrun (
-        <View style = {styles.seperator}>
-
-        </View>
-    )
-  }
-
+  
   return (
     <View style={styles.screen}>
+      <Text>Home Screen</Text>
       {/* modal element */}
       <Modal
         transparent={false}
@@ -92,13 +57,6 @@ export function HomeScreen(props) {
       <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
         <Text style={styles.buttonText}>Add Note</Text>
       </TouchableOpacity>
-
-      <FlatList 
-        data={props.data}
-        renderItem={({item}) => (<ListItem title={item.title} id = {item.id} content = {item.content} />)}
-        keyExtractor={item => item.id}
-        ItemSeparatorComponent={ListItemSeperator}
-      />
     </View>
   )
 }
@@ -146,12 +104,5 @@ const styles = StyleSheet.create({
   buttonsRow: {
     flexDirection: "row",
     marginVertical: 10,
-  },
-  ListItem: {
-    padding: 10,
-  },
-  seperator: {
-    backgroundColor: '#cccccc',
-    height: 5,
   }
 })
